@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    color: rgb(243, 241, 233)
+}
+body {
+    background-image: url("../img/bg.jpeg");
+    line-height: 1.5;
+}
+header {
+    background-color: #d96424;
+    background-image: url("../img/header.jpg");
+    box-shadow: 0px 5px 10px #c72a07;
+}
+h1 {
+    font-size: 40px;
+    color: white;
+    text-align: center;
+    padding: 40px 0;
+    font-family: 'Rubik 80s Fade', cursive;
+}
+
+/*----------------MAIN 1: SEARCH OPTION------------*/
+#main-1 {
+    text-align: center;
+    margin: 40px 0px
+}
+input {
+    font-size: 20px;
+    background-color: #1d1c1b;
+    padding: 10px
+}
+#text-form {
+    font-style: italic;
+}
+.submit {
+    cursor: pointer;
+}
+
+/*---------------MAIN 2: 151 GRID POKEMONS----------*/
+/*using display grid instead of flex because the last line of flex is not left aligned when we don't have enough of item*/
+#main-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,150px);
+    justify-content: space-evenly;
+    column-gap: 10px;
+    row-gap: 20px;
+}
+.pokemon-card {
+    border: 2px solid white;
+    box-shadow: 5px 5px 10px #e4e0e1;
+    text-align: center;
+    cursor: pointer;
+}
+.pokemon-image {
+    width: 80%
+}
+.pokemon-name {
+    text-transform: capitalize;
+    margin-bottom: 20px;
+    font-family: 'Secular One', sans-serif;
+}
+
+/*----------------------MODAL-----------------------*/
+.modal-container {
+    font-size: 28px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0;
+    pointer-events: none;
+    background-color: rgba(45, 30, 98, 0.8);
+}
+.modal-container.show {
+    opacity: 1;
+    pointer-events: visible;
+}
+.modal {
+    background-color: rgba(45, 30, 98);
+    position: relative;
+    width: 50%;
+    height: 50%;
+    text-align: center;
+}
+.modal button {
+    color:rgba(45, 30, 98);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer
+}
+.modal-name {
+    text-transform: uppercase;
+    background-color: #10072c;
+    padding: 10px 60px 10px 10px;
+    text-align: right;
+    font-size: 25px;
+}
+.modal-image {
+    height: 150px;
+    width: 150px;
+}
+.modal-text {
+    text-transform: capitalize;
+    font-size: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.left {
+    flex-basis: 20%;
+    margin-left: 10%;
+    text-align: left;
+}
+.right {
+    flex-basis: 70%;
+    font-style: italic; 
+    text-align: left;
+}
+
+/*-------------------MEDIA QUERY------------------*/
+@media screen and (max-width: 600px) {
+    body {
+        line-height: 1.2;
+    }
+    .modal {
+        width: 100vh;
+        height: 100vw;
+        font-size: 15px;
+    }
+    .left {
+        margin-left: 5%;
+    }
+    .right {
+        margin-left: 5%
+    }
+}
