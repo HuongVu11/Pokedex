@@ -1,39 +1,61 @@
 * {
     margin: 0;
-    color: rgb(243, 241, 233)
+    color: rgba(255, 255, 255, 0.9);
 }
 body {
+    background-color: #121212;
     background-image: url("../img/bg.jpeg");
-    line-height: 1.5;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    line-height: 1.5;  
+    position:relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+#content {
+    position: relative;
 }
 header {
-    background-color: #d96424;
-    background-image: url("../img/header.jpg");
-    box-shadow: 0px 5px 10px #c72a07;
+    box-shadow: 0px 5px 10px rgb(42,117,187);
 }
 h1 {
     font-size: 40px;
-    color: white;
+    color: rgb(255,203,5);
     text-align: center;
     padding: 40px 0;
     font-family: 'Rubik 80s Fade', cursive;
+    text-shadow: 0px 10px 10px rgb(42,117,187);
 }
 
 /*----------------MAIN 1: SEARCH OPTION------------*/
 #main-1 {
     text-align: center;
-    margin: 40px 0px
+    margin: 60px 0px
 }
 input {
     font-size: 20px;
     background-color: #1d1c1b;
-    padding: 10px
+    padding: 10px;
 }
 #text-form {
     font-style: italic;
+    color: antiquewhite;
 }
 .submit {
     cursor: pointer;
+    border-radius: 1em;
+    margin-left: 1em;
+    box-shadow: 5px 5px 10px rgba(255, 255, 255, 0.6);
 }
 
 /*---------------MAIN 2: 151 GRID POKEMONS----------*/
@@ -46,13 +68,23 @@ input {
     row-gap: 20px;
 }
 .pokemon-card {
-    border: 2px solid white;
-    box-shadow: 5px 5px 10px #e4e0e1;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 5px 5px 10px rgba(255, 255, 255, 0.6);
     text-align: center;
     cursor: pointer;
 }
+.pokemon-card:hover {
+    animation-name: shaking;
+    animation-duration: 0.6s;
+    border: 2px solid rgba(255, 222, 0, 0.7);
+    box-shadow: 5px 5px 10px rgba(255, 222, 0, 0.7);
+}
 .pokemon-image {
     width: 80%
+}
+.pokemon-image:hover {
+    transition-delay: 0.1s;
+    transform: rotate3d(0,1,0,180deg) scale(2)
 }
 .pokemon-name {
     text-transform: capitalize;
@@ -74,7 +106,7 @@ input {
     width: 100vw;
     opacity: 0;
     pointer-events: none;
-    background-color: rgba(45, 30, 98, 0.8);
+    background-color: rgba(45, 30, 98, 0.5);
 }
 .modal-container.show {
     opacity: 1;
@@ -86,6 +118,8 @@ input {
     width: 50%;
     height: 50%;
     text-align: center;
+    border: 2px solid #10072c;
+    box-shadow: 0px 10px 10px rgba(255, 255, 255, 0.6);
 }
 .modal button {
     color:rgba(45, 30, 98);
@@ -121,6 +155,35 @@ input {
     flex-basis: 70%;
     font-style: italic; 
     text-align: left;
+}
+
+/*------------------ANIMATION--------------------*/
+@keyframes shaking {
+    0%{
+        transform: translate3d(0px,2px,3px);
+        background-color: rgba(255, 255, 0, 0.2);
+    }
+    20%{
+        transform: translate3d(0px,-4px,-3px);
+        background-color: rgba(255, 255, 0, 0.4);
+
+    }
+    40%{
+        transform: translate3d(2px,0px,3px);
+        background-color: rgba(255, 255, 0, 0.6);
+    }
+    60%{
+        transform: translate3d(-4px,0px,-3px);
+        background-color: rgba(255, 255, 0, 0.8);
+    }
+    80%{
+        transform: translate3d(1px,1px,2px);
+        background-color: rgba(255, 255, 0, 0.6);
+    }
+    100%{
+        transform: translate3d(-1px,-1px,-2px);
+        background-color: rgba(255, 255, 0, 0.3);
+    }
 }
 
 /*-------------------MEDIA QUERY------------------*/

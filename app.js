@@ -30,10 +30,10 @@ const search = (name) => {
                 <p class="right">${json.height/10}m</p>
                 <p class="left">Weight: </p>
                 <p class="right">${json.weight/10}kg</p>
-                <p class="left">Abilities:</p>
-                <p class="right">${json.abilities.map(element => element.ability.name).join(' | ')}</p>
                 <p class="left">Types:</p>
                 <p class="right">${json.types.map(element => element.type.name).join(' | ')}</p>
+                <p class="left">Abilities:</p>
+                <p class="right">${json.abilities.map(element => element.ability.name).join(' | ')}</p>
             </div>
             <button class="close" onclick = "closeModal()">X</button>
         `
@@ -43,7 +43,7 @@ const search = (name) => {
     .catch((err) => {
         console.log(err, 'this was an error')
         const content = `
-            <p>Sorry, we can't find this pokemon.</p>
+            <p>POKEMON NOT FOUND</p>
             <button class="close" onclick = "closeModal()">X</button>
         `
         document.querySelector('.modal').innerHTML = content

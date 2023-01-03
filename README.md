@@ -4,7 +4,7 @@
 The idea of project is to build a pokedex where user can look up for a specific pokemon.
 
 ## API used in the project
-https://pokeapi.co/api/v2/pokemon/+ pokemon
+https://pokeapi.co/api/v2/pokemon/
 
 ## User stories
 As a pokemon's fan, I want to search for a pokemon's name and get back pokemon's informations like abilities, types, height and weight.
