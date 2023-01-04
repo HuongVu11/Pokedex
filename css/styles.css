@@ -58,6 +58,33 @@ input {
     box-shadow: 5px 5px 10px rgba(255, 255, 255, 0.6);
 }
 
+/*----------------------ADVANCED SEARCH-----------------------*/
+
+h2 {
+    font-size: 20px;
+    text-align: right;
+    margin-right: 2%;
+}
+
+fieldset {
+    margin: 1% 2% 2% 2%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#ability, .adv-submit, select {
+    margin:20px;
+    padding:0;
+    font-size: 15px;;
+    width: 100px;
+    height: 30px;
+    background-color: #1d1c1b;
+}
+.adv-submit {
+    border-radius: 1em;
+    background-color: rgb(196, 158, 5);
+}
+
 /*---------------MAIN 2: 151 GRID POKEMONS----------*/
 /*using display grid instead of flex because the last line of flex is not left aligned when we don't have enough of item*/
 #main-2 {
@@ -190,6 +217,13 @@ input {
 @media screen and (max-width: 600px) {
     body {
         line-height: 1.2;
+    }
+    input {
+        margin: 12px;
+        text-align: center;
+    }
+    .submit {
+        margin-left: 12px;
     }
     .modal {
         width: 100vh;

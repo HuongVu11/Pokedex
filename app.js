@@ -78,6 +78,29 @@ const search151 = () => {
     })
 }
 
+// ----------------------GET DATA FOR ADVANCED SEARCH----------------------------
+const searchData = (name,criteria) => {
+    fetch(`https://pokeapi.co/api/v2/${name}`)
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json)
+        const array = json.results.map(element => element.name)
+        for (const element of array) {
+            const option = document.createElement("option")
+            option.value = element
+            option.innerText = element
+            document.querySelector(criteria).appendChild(option)
+            console.log(document.querySelector(criteria))
+        }
+    })
+    .catch((err) => {
+        console.log(err, 'this was an error')
+    })
+}
+searchData('pokemon-color','#color')
+searchData('pokemon-shape','#shape')
+searchData('type','#type')
+searchData('growth-rate','#growth')
 
 // ------------------------ EVENTS ------------------------------
 search151()
@@ -88,4 +111,3 @@ window.onload = () => {
         search(pokemonName)
     })
 }
-

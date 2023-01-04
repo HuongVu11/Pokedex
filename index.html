@@ -21,8 +21,45 @@
         <div id="main-1">
             <form>
                 <input id ="text-form" type="text" placeholder="name or id">
-                <input class="submit" type="submit" value="Search by name or id">
+                <input class="submit" type="submit" value="Search">
             </form>
+        </div>
+        <div id="adv-search">
+            <h2>Advanced Search</h2>
+            <div id="adv-search-container">
+                <fieldset>
+                    <legend>Filter</legend>
+                    <div class="filter">    
+                        <label for="ability">Ability:</label>
+                        <input type="text" id="ability" name="ability" placeholder="type here...">
+                    </div>
+                    <div class="filter">
+                        <label for="color">Color:</label>
+                        <select id="color" name="color">
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+                    <div class="filter">
+                        <label for="shape">Shape:</label>
+                        <select id="shape" name="shape">
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+                    <div class="filter">    
+                        <label for="type">Type:</label>
+                        <select id="type" name="type">
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+                    <div class="filter">    
+                        <label for="growth">Growth Rate:</label>
+                        <select id="growth" name="growth">
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+                    <input class="adv-submit" type="submit" value="Search">
+                </fieldset>  
+            </div>
         </div> 
         <div id="main-2">
         </div>
