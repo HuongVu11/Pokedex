@@ -36,6 +36,10 @@ h1 {
     font-family: 'Rubik 80s Fade', cursive;
     text-shadow: 0px 10px 10px rgb(42,117,187);
 }
+h2 {
+    padding: 10px;
+    cursor: pointer;
+}
 
 /*----------------MAIN 1: SEARCH OPTION------------*/
 #main-1 {
@@ -64,15 +68,15 @@ h2 {
     font-size: 20px;
     text-align: right;
     margin-right: 2%;
+    margin-bottom: 2%
 }
-
 fieldset {
     margin: 1% 2% 2% 2%;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     justify-content: space-between;
 }
-#ability, .adv-submit, select {
+#filter-ability, #adv-submit, select {
     margin:20px;
     padding:0;
     font-size: 15px;;
@@ -80,7 +84,8 @@ fieldset {
     height: 30px;
     background-color: #1d1c1b;
 }
-.adv-submit {
+#adv-submit {
+    cursor: pointer;
     border-radius: 1em;
     background-color: rgb(196, 158, 5);
 }
@@ -148,7 +153,7 @@ fieldset {
     border: 2px solid #10072c;
     box-shadow: 0px 10px 10px rgba(255, 255, 255, 0.6);
 }
-.modal button {
+.close {
     color:rgba(45, 30, 98);
     position: absolute;
     top: 0px;
@@ -182,6 +187,10 @@ fieldset {
     flex-basis: 70%;
     font-style: italic; 
     text-align: left;
+}
+.modal-advsearch {
+    overflow-wrap: break-word;
+    font-size: small;
 }
 
 /*------------------ANIMATION--------------------*/
