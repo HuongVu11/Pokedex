@@ -72,6 +72,7 @@ const search151 = () => {
         const pokemonCard = document.querySelectorAll('.pokemon-card')
         pokemonCard.forEach(pokemon => {
             pokemon.addEventListener('click', (e) => {
+                //pokemon-Card div has an innerText with the name of pokemon.
                 search(pokemon.innerText)
             })
         })
@@ -86,9 +87,9 @@ const searchData = (name,criteria) => {
     .then((response) => response.json())
     .then((json) => {
         console.log(json)
-        const array = json.results.map(element => element.name)
+        const array = json.results.map(element => element.name).sort()
         for (const element of array) {
-            const option = document.createElement("option")
+            const option = document.createElement('option')
             option.className = criteria.replace(/#filter-/,'')
             option.value = element
             option.innerText = element
@@ -169,9 +170,9 @@ const showAdvancedSearchResult = async () => {
     const validArray = allArray.filter(array => array.length !== 0)
     console.log('all', allArray)
     console.log('valid', validArray)
-    // 2.3.2. If there is only one criteria used by user, the valid array has only one array and this is the result.
+    // 2.3.2. If there is only one criteria used by user, the valid array has only one array and the result is the array inside of valid array.
     if (validArray.length === 1) {
-        commonPokemon = validArray    
+        commonPokemon = validArray[0] 
     } else {
     // 2.3.3. If there are multiple criterias, find an array with the least pokemon. This array will be used to compare with the other array to find common pokemons.
         let referenceArray = []
@@ -200,36 +201,74 @@ const showAdvancedSearchResult = async () => {
             }
         }
     }
+    console.log('common Pokemons',commonPokemon)
     // 2.4. Show the result
-    console.log(commonPokemon)
-    const result = commonPokemon.join(', ')
-    console.log(result)
-    let showPokemonFound = ''
-    if (commonPokemon.length === 0) {
-        showPokemonFound =
-        `<h3 class="modal-name">Result</h3>
-        <h4 class="modal-advsearch">No pokemon found</h4> 
-        <button class="close" onclick = "closeModal()">X</button>`
-    } else {
-        showPokemonFound = 
-        `<h3 class="modal-name">Result</h3>
-        <h4 class="modal-advsearch">The following pokemon found:</h4> 
-        <h4 class="modal-advsearch">${result}</h4>
-        <button class="close" onclick = "closeModal()">X</button>`
+    const createPokemonCard = async () => {
+        let main2Content = []
+        for (let pokemon of commonPokemon) {
+            await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json)
+                const content = `
+                    <div class="pokemon-card">
+                        <img class="pokemon-img" src=${json.sprites.front_default}>
+                        <p class="pokemon-name">${json.name}</p>
+                    </div>
+                `
+                main2Content.push(content)  
+            })
+            .catch(err => {
+                console.log('error', err)
+            })
+        }
+        document.querySelector('#main-2').innerHTML = main2Content.join('') 
+        const pokemonCard = document.querySelectorAll('.pokemon-card')
+        pokemonCard.forEach(pokemon => {
+            pokemon.addEventListener('click', (e) => {
+            search(pokemon.innerText)
+            })
+        })   
     }
-    document.querySelector('.modal').innerHTML = showPokemonFound
-    showModal()
+    if (commonPokemon.length === 0) {
+        const noResult = `<h5>No pokemon found</h5>`
+        document.querySelector('#main-2').innerHTML = noResult
+    } else {
+        createPokemonCard()  
+    } 
 }
 
 // ------------------------ EVENTS ------------------------------
 
 window.onload = () => {
+
+        const searchAbilityData = async () => {
+            await fetch(`https://pokeapi.co/api/v2/ability?limit=327`)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json)
+                const array = json.results.map(element => element.name).sort()
+                for (let element of array) {
+                    let li = document.createElement('li')
+                    li.className = 'ability'
+                    li.innerText = element
+                    console.log(document.querySelector('ul'))
+                    document.querySelector('ul').appendChild(li)
+                }
+            })
+            .catch((err) => {
+                console.log(err, 'this was an error')
+            })
+        }
+        searchAbilityData()
+
     search151()
+   // searchData('ability?limit=327','#filter-ability')
     searchData('pokemon-color','#filter-color')
     searchData('pokemon-shape','#filter-shape')
     searchData('type','#filter-type')
     searchData('growth-rate','#filter-growth')
-    //normal search submitted
+    // normal search submitted
     document.querySelector('form').addEventListener('submit', (e) => {
         e.preventDefault()
         const pokemonName = document.querySelector('input[type="text"]').value
@@ -237,16 +276,19 @@ window.onload = () => {
     })
     // show advanced search form when clicked
     document.querySelector('h2').addEventListener('mouseover', (e) => {
-        let tag = document.querySelector('fieldset')
-        if (tag.style.display === 'none') {
-            tag.style.display = 'flex'
+        let fieldset = document.querySelector('fieldset')
+        if (fieldset.style.display === 'none') {
+            fieldset.style.display = 'flex'
         } else {
-            tag.style.display = 'none'
+            fieldset.style.display = 'none'
         }
     })
     // advanced search submitted
     document.querySelector('#adv-submit').addEventListener('click', (e) => {
         e.preventDefault()
+        const waitingAlert = `
+            <h5>...wait a moment...</h5>`
+        document.querySelector('#main-2').innerHTML = waitingAlert
         showAdvancedSearchResult()
     })
 }
