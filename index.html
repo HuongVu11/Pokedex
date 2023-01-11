@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa&family=Nanum+Gothic&family=Rubik+80s+Fade&family=Rubik+Vinyl&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins:wght@700&family=Secular+One&display=swap" rel="stylesheet">  
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <title>POKEDEX</title>
 </head>
 <body>
     <div id="loader-container">
+        <div id="loader"></div>
     </div>
     <div id="content">
         <header>
@@ -23,53 +23,60 @@
         <div id="main-1">
             <form>
                 <input id ="text-form" type="text" placeholder="name or id">
-                <input class="submit" type="submit" value="Search">
+                <button class="submit" type="submit">
+                    <ion-icon id="icon" name="search-outline"></ion-icon>
+                </button>
             </form>
         </div>
         <div id="adv-search">
-            <h2>Advanced Search</h2>
+            <div id="adv-search-title">
+                <ion-icon id="arrow" class="yellow" size="small" name="caret-down-outline"></ion-icon>
+                <h2 class="yellow">Advanced Search</h2>
+            </div>
             <div id="adv-search-container">
                 <fieldset>
                     <legend>Filter</legend>
-                    <div class="box">
-                    <div class="filter">    
+                    <div id="ability-container" class="filter">    
                         <label for="ability">Ability:</label>
-                        <!-- <input type="text" id="filter-ability" name="ability" placeholder="type here..."> -->
-                        <div class="scroll">
-                        <!-- <select size="10" id="filter-ability" name="ability"> -->
-                            <ul id="filter-ability">
-                                <li>none</li>
+                        <div id="filter-ability">
+                            <p class="select-ability-text">-Select-</p>
+                            <ul class="options-ability">
+                                <li class="ability">-Select-</li>
                             </ul>
-                                <!-- <option class="ability" value="">none</option>
-                        </select> -->
                         </div>
                     </div>
-                </div>
                     <div class="filter">
                         <label for="color">Color:</label>
                         <select id="filter-color" name="color">
-                            <option class="color" value="">none</option>
+                            <!-- <option class="color" value="">-Select-</option> -->
+                            <option value="">-Select-</option>
                         </select>
                     </div>
                     <div class="filter">
                         <label for="shape">Shape:</label>
                         <select id="filter-shape" name="shape">
-                            <option class="shape" value="">none</option>
+                            <!-- <option class="shape" value="">-Select-</option> -->
+                            <option value="">-Select-</option>
                         </select>
                     </div>
                     <div class="filter">    
                         <label for="type">Type:</label>
                         <select id="filter-type" name="type">
-                            <option class="type" value="">none</option>
+                            <!-- <option class="type" value="">-Select-</option> -->
+                            <option value="">-Select-</option>
                         </select>
                     </div>
                     <div class="filter">    
                         <label for="growth">Growth Rate:</label>
                         <select id="filter-growth" name="growth">
-                            <option class="growth" value="">none</option>
+                            <!-- <option class="growth" value="">-Select-</option> -->
+                            <option value="">-Select-</option>
                         </select>
                     </div>
-                    <input id="adv-submit" type="submit" value="Search">
+                    <div>
+                        <input id="adv-submit" type="submit" value="Search">
+                        <button id="reset">Reset</button>
+                    </div>
                 </fieldset>  
             </div>
         </div> 

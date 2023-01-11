@@ -64,7 +64,9 @@ const search151 = () => {
         //using map() to make a new array of html code for each pokemon, then display it inside the div #main-2 in HTML
         const createPokemonDiv = json.results.map(element => `
             <div class="pokemon-card">
+                <div class="pokemon-img-container">
                 <img class="pokemon-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${json.results.indexOf(element)+1}.png" alt="${element.name}'s image">
+                </div>
                 <p class="pokemon-name">${element.name}</p>
             </div>
         `)
@@ -82,6 +84,36 @@ const search151 = () => {
 // ---------------------- ADVANCED SEARCH FUNCTIONS ----------------------------
 
 // 1. Get a dropdown list for some criteria
+// 1.1. Show 327 abilities's Pokemon when clicked and let user choose one.
+const searchAbilityData = async () => {
+    await fetch(`https://pokeapi.co/api/v2/ability?limit=327`)
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json)
+        const array = json.results.map(element => element.name).sort()
+        console.log(array)
+        for (let element of array) {
+            let li = document.createElement('li')
+            li.className = 'ability'
+            li.innerText = element
+            document.querySelector('ul').appendChild(li)
+        }
+    })
+    .catch((err) => {
+        console.log(err, 'this was an error')
+    })
+    const options = document.querySelectorAll('.ability')
+    document.querySelector('.select-ability-text').addEventListener('click', () => {
+        document.querySelector('.options-ability').classList.add('show')})
+        console.log(options)
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelector('.select-ability-text').innerText = option.innerText
+                document.querySelector('.options-ability').classList.remove('show')
+            })
+    })
+}
+// 2.2. searchData funtion is used to get choices from others criteria through option tag.
 const searchData = (name,criteria) => {
     fetch(`https://pokeapi.co/api/v2/${name}`)
     .then((response) => response.json())
@@ -90,7 +122,7 @@ const searchData = (name,criteria) => {
         const array = json.results.map(element => element.name).sort()
         for (const element of array) {
             const option = document.createElement('option')
-            option.className = criteria.replace(/#filter-/,'')
+            // option.className = criteria.replace(/#filter-/,'')
             option.value = element
             option.innerText = element
             document.querySelector(criteria).appendChild(option)
@@ -105,20 +137,20 @@ const searchData = (name,criteria) => {
 const showAdvancedSearchResult = async () => {
     let commonPokemon = []
     // 2.1. Define variable that contain the choice of user for each search criteria
-    const abilityChoice = document.querySelector('#filter-ability').value.toLowerCase()
+    const abilityChoice = document.querySelector('.select-ability-text').innerText
     const colorChoice = document.querySelector('#filter-color').value
     const shapeChoice = document.querySelector('#filter-shape').value
     const typeChoice = document.querySelector('#filter-type').value
     const growthChoice = document.querySelector('#filter-growth').value
-    // 2.2. Get data from Pokemon API for the criteria used by the user.
-    // 2.2.1. Delare variables to store data received for each criteria.
+    // 2.2. Get data from Pokemon API for the selected criterias.
+    // 2.2.1. Delare variables to store data received for each criteria. These arrays have an initial value of 0 that is used when a criteria is not selected.
     let abilityArray = []
     let colorArray = []
     let shapeArray = []
     let typeArray = []
     let growthArray = []
-    // 2.2.2. For each criteria, if the user choose to filter by this criteria, we will fetch data from pokemon API.
-    if (abilityChoice !== '') {
+    // 2.2.2. For each selected criteria, we will fetch data from pokemon API.
+    if (abilityChoice !== '-Select-') {
         await fetch(`https://pokeapi.co/api/v2/ability/${abilityChoice}`)
         .then((response) => response.json())
         .then((json) => {
@@ -212,7 +244,9 @@ const showAdvancedSearchResult = async () => {
                 console.log(json)
                 const content = `
                     <div class="pokemon-card">
-                        <img class="pokemon-img" src=${json.sprites.front_default}>
+                        <div class="pokemon-img-container">
+                            <img class="pokemon-image" src=${json.sprites.front_default}>
+                        </div>
                         <p class="pokemon-name">${json.name}</p>
                     </div>
                 `
@@ -231,39 +265,32 @@ const showAdvancedSearchResult = async () => {
         })   
     }
     if (commonPokemon.length === 0) {
-        const noResult = `<h5>No pokemon found</h5>`
-        document.querySelector('#main-2').innerHTML = noResult
+        const noResult = `
+            <p class="modal-name">POKEMON NOT FOUND</p>
+            <button class="close" onclick = "closeModal()">X</button>`
+        document.querySelector('.modal').innerHTML = noResult
+        showModal()
     } else {
         createPokemonCard()  
     } 
+}
+//3. Reset button
+const reset = () => {
+    document.querySelector('#reset').addEventListener('click', () => {
+        search151()
+        // reset ability choice
+        document.querySelector('.select-ability-text').innerText = '-Select-'
+        // reset all other choices
+        const options = document.querySelectorAll('option')
+        options.forEach(option => option.selected=false)
+    })  
 }
 
 // ------------------------ EVENTS ------------------------------
 
 window.onload = () => {
-
-        const searchAbilityData = async () => {
-            await fetch(`https://pokeapi.co/api/v2/ability?limit=327`)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json)
-                const array = json.results.map(element => element.name).sort()
-                for (let element of array) {
-                    let li = document.createElement('li')
-                    li.className = 'ability'
-                    li.innerText = element
-                    console.log(document.querySelector('ul'))
-                    document.querySelector('ul').appendChild(li)
-                }
-            })
-            .catch((err) => {
-                console.log(err, 'this was an error')
-            })
-        }
-        searchAbilityData()
-
     search151()
-   // searchData('ability?limit=327','#filter-ability')
+    searchAbilityData()
     searchData('pokemon-color','#filter-color')
     searchData('pokemon-shape','#filter-shape')
     searchData('type','#filter-type')
@@ -275,20 +302,27 @@ window.onload = () => {
         search(pokemonName)
     })
     // show advanced search form when clicked
-    document.querySelector('h2').addEventListener('mouseover', (e) => {
+    document.querySelector('#adv-search-title').addEventListener('click', (e) => {
         let fieldset = document.querySelector('fieldset')
-        if (fieldset.style.display === 'none') {
-            fieldset.style.display = 'flex'
+        if (fieldset.classList.value === '') {
+            fieldset.classList.add('show') 
         } else {
-            fieldset.style.display = 'none'
-        }
+            fieldset.classList.remove('show')
+        } 
     })
     // advanced search submitted
     document.querySelector('#adv-submit').addEventListener('click', (e) => {
         e.preventDefault()
-        const waitingAlert = `
-            <h5>...wait a moment...</h5>`
-        document.querySelector('#main-2').innerHTML = waitingAlert
         showAdvancedSearchResult()
     })
+    // loading event not working
+    document.querySelector('body').addEventListener('load', () =>{
+        const loaderContainer = document.querySelector('#loader-container')
+        document.querySelector('#loader-container').classList.add('show')
+        window.addEventListener('loadend', () => {
+            loaderContainer.classList.remove('show')
+        })
+    })
+    reset()
 }
+    
