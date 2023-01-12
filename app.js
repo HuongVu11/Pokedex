@@ -13,6 +13,18 @@ const closeModal = () => {
     document.querySelector('.modal').innerHTML = ''
 }
 
+// Declare a function that show Loader and hide content
+const showLoader = () => {
+    document.querySelector('#loader-container').classList.remove('hide')
+    document.querySelector('#content').classList.add('hide')
+}
+
+// Declare a function that hide Loader and show content
+const hideLoader = () => {
+    document.querySelector('#loader-container').classList.add('hide')
+    document.querySelector('#content').classList.remove('hide')
+}
+
 //Search pokemon function that have a parameter that can be a name or Id.
 //This function allow to fetch API and get back pokemon's informations and create a HTML code to store these informations and append it to modal div.
 const search = (name) => {
@@ -122,7 +134,6 @@ const searchData = (name,criteria) => {
         const array = json.results.map(element => element.name).sort()
         for (const element of array) {
             const option = document.createElement('option')
-            // option.className = criteria.replace(/#filter-/,'')
             option.value = element
             option.innerText = element
             document.querySelector(criteria).appendChild(option)
@@ -236,6 +247,7 @@ const showAdvancedSearchResult = async () => {
     console.log('common Pokemons',commonPokemon)
     // 2.4. Show the result
     const createPokemonCard = async () => {
+        showLoader()
         let main2Content = []
         for (let pokemon of commonPokemon) {
             await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon)
@@ -257,6 +269,7 @@ const showAdvancedSearchResult = async () => {
             })
         }
         document.querySelector('#main-2').innerHTML = main2Content.join('') 
+        hideLoader()
         const pokemonCard = document.querySelectorAll('.pokemon-card')
         pokemonCard.forEach(pokemon => {
             pokemon.addEventListener('click', (e) => {
@@ -286,15 +299,18 @@ const reset = () => {
     })  
 }
 
-// ------------------------ EVENTS ------------------------------
+// ------------------------ SET UP & EVENTS ------------------------------
+
+// showLoader()
+search151()
+searchAbilityData()
+searchData('pokemon-color','#filter-color')
+searchData('pokemon-shape','#filter-shape')
+searchData('type','#filter-type')
+searchData('growth-rate','#filter-growth')
 
 window.onload = () => {
-    search151()
-    searchAbilityData()
-    searchData('pokemon-color','#filter-color')
-    searchData('pokemon-shape','#filter-shape')
-    searchData('type','#filter-type')
-    searchData('growth-rate','#filter-growth')
+    hideLoader()
     // normal search submitted
     document.querySelector('form').addEventListener('submit', (e) => {
         e.preventDefault()
@@ -314,14 +330,6 @@ window.onload = () => {
     document.querySelector('#adv-submit').addEventListener('click', (e) => {
         e.preventDefault()
         showAdvancedSearchResult()
-    })
-    // loading event not working
-    document.querySelector('body').addEventListener('load', () =>{
-        const loaderContainer = document.querySelector('#loader-container')
-        document.querySelector('#loader-container').classList.add('show')
-        window.addEventListener('loadend', () => {
-            loaderContainer.classList.remove('show')
-        })
     })
     reset()
 }

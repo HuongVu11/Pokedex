@@ -13,6 +13,7 @@ body {
     position:relative;
     font-family: 'Montserrat', sans-serif;
 }
+/*pseudo element is used to make change opacity of background image*/
 body::before {
     display: block;
     height: 100%;
@@ -28,10 +29,6 @@ body::before {
 #content {
     position: relative;
 }
-/* header {
-    box-shadow: 0 0.2rem 0.4rem rgb(42,117,187);
-    margin-bottom: 5%;
-} */
 h1 {
     font-size: 2.5rem;
     color: rgb(255,203,5);
@@ -275,7 +272,7 @@ li {
 
 /*------------------LOADER---------------------*/
 #loader-container {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     position: fixed;
@@ -283,7 +280,23 @@ li {
     left: 0px;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(45, 30, 98);
+    background-color: rgb(9, 8, 13);
+    opacity: 1;
+}
+#loader-container.hide {
+    display: none;
+    opacity: 0;
+}
+#content {
+    visibility: visible;
+    opacity: 1;
+}
+#content.hide {
+    visibility: hidden;
+    opacity: 0
+}
+#loader-container, #loader-container.hide, #content, #content.hide {
+    transition: opacity 1s;
 }
 #loader {
     border: 10px solid whitesmoke;
@@ -294,10 +307,6 @@ li {
     height: 100px;
     animation: spinning-loader 2s linear infinite;
 }
-#loader-container.show {
-    display: flex;
-}
-
 /*------------------ANIMATION--------------------*/
 @keyframes shaking {
     0%{
