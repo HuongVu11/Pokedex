@@ -15,14 +15,16 @@ const closeModal = () => {
 
 // Declare a function that show Loader and hide content
 const showLoader = () => {
-    document.querySelector('#loader-container').classList.remove('hide')
+    // document.querySelector('#loader-container').classList.remove('hide')
     document.querySelector('#content').classList.add('hide')
+    document.querySelector('#loader-container').style.display = 'flex'
 }
 
 // Declare a function that hide Loader and show content
 const hideLoader = () => {
-    document.querySelector('#loader-container').classList.add('hide')
+    // document.querySelector('#loader-container').classList.add('hide')
     document.querySelector('#content').classList.remove('hide')
+    document.querySelector('#loader-container').style.display = 'none'
 }
 
 //Search pokemon function that have a parameter that can be a name or Id.
@@ -56,14 +58,11 @@ const search = (name) => {
         console.log(err, 'this was an error')
         // show the modal with a message POKEMON NOT FOUND
         const content = `
-            <p>POKEMON NOT FOUND</p>
+            <p class="modal-no-result">POKEMON NOT FOUND</p>
             <button class="close" onclick = "closeModal()">X</button>
         `
         document.querySelector('.modal').innerHTML = content
         const modalChildren = document.querySelector('.modal').firstElementChild
-        modalChildren.style.backgroundColor = 'red'
-        modalChildren.style.padding = '10px'
-        modalChildren.style.textAlign= 'center'
         showModal()
     })
 }
@@ -248,28 +247,55 @@ const showAdvancedSearchResult = async () => {
     // 2.4. Show the result
     const createPokemonCard = async () => {
         showLoader()
-        let main2Content = []
-        for (let pokemon of commonPokemon) {
+
+        //First option: show all pokemon in the same time
+        // let main2Content = []
+        // for (let pokemon of commonPokemon) {
+        //     await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon)
+        //     .then((response) => response.json())
+        //     .then((json) => {
+        //         console.log(json)
+        //         const content = `
+        //             <div class="pokemon-card">
+        //                 <div class="pokemon-img-container">
+        //                     <img class="pokemon-image" src=${json.sprites.front_default}>
+        //                 </div>
+        //                 <p class="pokemon-name">${json.name}</p>
+        //             </div>
+        //         `
+        //         main2Content.push(content)  
+        //     })
+        //     .catch(err => {
+        //         console.log('error', err)
+        //     })
+        // }
+        // document.querySelector('#main-2').innerHTML = main2Content.join('') 
+
+        //Second option: show pokemon when have result
+        document.querySelector('#main-2').innerHTML=''
+        for (const pokemon of commonPokemon) {
             await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon)
             .then((response) => response.json())
             .then((json) => {
                 console.log(json)
                 const content = `
-                    <div class="pokemon-card">
-                        <div class="pokemon-img-container">
-                            <img class="pokemon-image" src=${json.sprites.front_default}>
-                        </div>
-                        <p class="pokemon-name">${json.name}</p>
+                    <div class="pokemon-img-container">
+                        <img class="pokemon-image" src=${json.sprites.front_default}>
                     </div>
-                `
-                main2Content.push(content)  
+                    <p class="pokemon-name">${json.name}</p>`
+                const newDiv = document.createElement('div')
+                newDiv.className ='pokemon-card'
+                console.log(newDiv)
+                newDiv.innerHTML = content
+                document.querySelector('#main-2').appendChild(newDiv)
+                hideLoader()
             })
             .catch(err => {
                 console.log('error', err)
             })
         }
-        document.querySelector('#main-2').innerHTML = main2Content.join('') 
-        hideLoader()
+
+        // hideLoader()
         const pokemonCard = document.querySelectorAll('.pokemon-card')
         pokemonCard.forEach(pokemon => {
             pokemon.addEventListener('click', (e) => {
@@ -279,7 +305,7 @@ const showAdvancedSearchResult = async () => {
     }
     if (commonPokemon.length === 0) {
         const noResult = `
-            <p class="modal-name">POKEMON NOT FOUND</p>
+            <p class="modal-no-result">POKEMON NOT FOUND</p>
             <button class="close" onclick = "closeModal()">X</button>`
         document.querySelector('.modal').innerHTML = noResult
         showModal()
@@ -300,8 +326,8 @@ const reset = () => {
 }
 
 // ------------------------ SET UP & EVENTS ------------------------------
-
-// showLoader()
+// document.querySelector('#loader-container').style.display='none'
+// setTimeout(showLoader(),10000)
 search151()
 searchAbilityData()
 searchData('pokemon-color','#filter-color')
@@ -321,9 +347,11 @@ window.onload = () => {
     document.querySelector('#adv-search-title').addEventListener('click', (e) => {
         let fieldset = document.querySelector('fieldset')
         if (fieldset.classList.value === '') {
-            fieldset.classList.add('show') 
+            fieldset.classList.add('show')
+            document.querySelector('#arrow').style.transform ='rotate(180deg)'
         } else {
             fieldset.classList.remove('show')
+            document.querySelector('#arrow').style.transform ='none'
         } 
     })
     // advanced search submitted
