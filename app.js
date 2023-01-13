@@ -247,31 +247,6 @@ const showAdvancedSearchResult = async () => {
     // 2.4. Show the result
     const createPokemonCard = async () => {
         showLoader()
-
-        //First option: show all pokemon in the same time
-        // let main2Content = []
-        // for (let pokemon of commonPokemon) {
-        //     await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon)
-        //     .then((response) => response.json())
-        //     .then((json) => {
-        //         console.log(json)
-        //         const content = `
-        //             <div class="pokemon-card">
-        //                 <div class="pokemon-img-container">
-        //                     <img class="pokemon-image" src=${json.sprites.front_default}>
-        //                 </div>
-        //                 <p class="pokemon-name">${json.name}</p>
-        //             </div>
-        //         `
-        //         main2Content.push(content)  
-        //     })
-        //     .catch(err => {
-        //         console.log('error', err)
-        //     })
-        // }
-        // document.querySelector('#main-2').innerHTML = main2Content.join('') 
-
-        //Second option: show pokemon when have result
         document.querySelector('#main-2').innerHTML=''
         for (const pokemon of commonPokemon) {
             await fetch('https://pokeapi.co/api/v2/pokemon/'+pokemon)
@@ -289,19 +264,17 @@ const showAdvancedSearchResult = async () => {
                 newDiv.innerHTML = content
                 document.querySelector('#main-2').appendChild(newDiv)
                 hideLoader()
+                const pokemonCard = document.querySelectorAll('.pokemon-card')
+                pokemonCard.forEach(pokemon => {
+                    pokemon.addEventListener('click', (e) => {
+                    search(pokemon.innerText)
+                    })
+                })  
             })
             .catch(err => {
                 console.log('error', err)
             })
         }
-
-        // hideLoader()
-        const pokemonCard = document.querySelectorAll('.pokemon-card')
-        pokemonCard.forEach(pokemon => {
-            pokemon.addEventListener('click', (e) => {
-            search(pokemon.innerText)
-            })
-        })   
     }
     if (commonPokemon.length === 0) {
         const noResult = `
