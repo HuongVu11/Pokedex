@@ -2,7 +2,7 @@
 
 //--------------------------- FUNCTIONS --------------------------------
 
-// Declare a function that show up modal
+// Declare a function that show modal
 const showModal = () => {
     document.querySelector('.modal-container').classList.add('show')
 }
@@ -25,8 +25,8 @@ const hideLoader = () => {
     document.querySelector('#content').classList.remove('hide')
 }
 
-//Search pokemon function that have a parameter which is a name or Id.
-//This function allow to fetch API and get back pokemon's informations and create a HTML code to store these informations and append it to modal div.
+//Declare Search(name) - a function that has a parameter which is a name or Id.
+//This function allow to fetch API and get Pokemon's information and create a HTML code to store this information and append it to modal div.
 const search = (name) => {
     fetch('https://pokeapi.co/api/v2/pokemon/'+name.toLowerCase())
     .then((response) => response.json())
@@ -75,12 +75,12 @@ const search = (name) => {
     })
 }
 
-// Declare a function that show the 151 original pokemons, and that allow to show pokemon's details when user click on it.
+// Declare a function that show the 151 original Pokemons and allow to show Pokemon's details when the user clicks on it.
 const search151 = () => {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
     .then((response) => response.json())
     .then((json) => {
-        //using map() to make a new array of html code for each pokemon, then display it inside the div #main-2 in HTML
+        //using map() to make a new array of html code for each Pokemon, then display it inside the div #main-2 in HTML
         const createPokemonDiv = json.results.map(element => `
             <div class="pokemon-card">
                 <div class="pokemon-img-container">
@@ -102,7 +102,7 @@ const search151 = () => {
 
 // ---------------------- ADVANCED SEARCH FUNCTIONS ----------------------------
 
-// 1. Get a dropdown list for some criteria
+// 1. Get a dropdown list for each criteria
 // 1.1. Show 327 abilities's Pokemon when clicked and let user choose one.
 const searchAbilityData = async () => {
     await fetch(`https://pokeapi.co/api/v2/ability?limit=327`)
@@ -130,7 +130,7 @@ const searchAbilityData = async () => {
             })
     })
 }
-// 2.2. searchData funtion is used to get choices from others criteria through option tag.
+// 1.2. searchData funtion is used to get choices from others criterias through option tag.
 const searchData = (name,criteria) => {
     fetch(`https://pokeapi.co/api/v2/${name}`)
     .then((response) => response.json())
@@ -149,10 +149,10 @@ const searchData = (name,criteria) => {
     })
 }
 
-// 2. Advanced search for pokemons that satisfy some criteria
+// 2. Advanced search for Pokemons that satisfy some criteria
 const showAdvancedSearchResult = async () => {
     let commonPokemon = []
-    // 2.1. Define variable that contain the choice of user for each search criteria
+    // 2.1. Define variable that contain the choice of the user for each search criteria
     const abilityChoice = document.querySelector('.select-ability-text').innerText
     const colorChoice = document.querySelector('#filter-color').value
     const shapeChoice = document.querySelector('#filter-shape').value
@@ -218,11 +218,11 @@ const showAdvancedSearchResult = async () => {
     const validArray = allArray.filter(array => array.length !== 0)
     console.log('all', allArray)
     console.log('valid', validArray)
-    // 2.3.2. If there is only one criteria used by user, the valid array has only one array and the result is the array inside of valid array.
+    // 2.3.2. If there is only one criteria used by the user, the valid array has only one array and the result is the array inside of valid array.
     if (validArray.length === 1) {
         commonPokemon = validArray[0] 
     } else {
-    // 2.3.3. If there are multiple criterias, find an array with the least pokemon. This array will be used to compare with the other array to find common pokemons.
+    // 2.3.3. If there are multiple criterias, find an array with the least pokemon. This array will be used to compare with the other array to find common Pokemons.
         let referenceArray = []
         for (let i = 0; i < validArray.length-1; i++) {
             let min = []
@@ -241,9 +241,9 @@ const showAdvancedSearchResult = async () => {
     // 2.3.4. Remove referrence Array from valid Array
         validArray.splice(validArray.indexOf(referenceArray),1)
         console.log('valid', validArray)
-    // 2.3.5. Find common pokemon: Compare each pokemon of referrence array with the rest array (valid array).
+    // 2.3.5. Find common Pokemon: Compare each Pokemon of referrence array with the rest array (valid array).
         for (let pokemon of referenceArray) {
-            //test if every array inside the validArray (after removing reference array) contains the same pokemon as referrence Array
+            //test if every array inside the validArray (after removing reference array) contains the same Pokemon as referrence Array
             if (validArray.every(array => array.includes(pokemon))) {
                 commonPokemon.push(pokemon)
             }
@@ -262,7 +262,7 @@ const showAdvancedSearchResult = async () => {
                 let img=''
                 if(json.sprites.front_default !== null) {
                     img = `
-                    <img class="pokemon-image" src=${json.sprites.front_default} alt="${json.name}'s image">`
+                        <img class="pokemon-image" src=${json.sprites.front_default} alt="${json.name}'s image">`
                 } else {
                     img = `<h5>Image not available</h5>`
                 }
@@ -322,13 +322,13 @@ searchData('growth-rate','#filter-growth')
 
 window.onload = () => {
     hideLoader()
-    // normal search submitted
+    // Normal search submitted
     document.querySelector('form').addEventListener('submit', (e) => {
         e.preventDefault()
         const pokemonName = document.querySelector('input[type="text"]').value
         search(pokemonName)
     })
-    // show advanced search form when clicked
+    // Show advanced search form when clicked
     document.querySelector('#adv-search-title').addEventListener('click', (e) => {
         e.preventDefault()
         let fieldset = document.querySelector('fieldset')
@@ -341,7 +341,7 @@ window.onload = () => {
             document.querySelector('#arrow').style.transform ='none'
         } 
     })
-    // advanced search submitted
+    // Advanced search submitted
     document.querySelector('#adv-submit').addEventListener('click', (e) => {
         e.preventDefault()
         showAdvancedSearchResult()
