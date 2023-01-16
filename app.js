@@ -15,28 +15,36 @@ const closeModal = () => {
 
 // Declare a function that show Loader and hide content
 const showLoader = () => {
-    // document.querySelector('#loader-container').classList.remove('hide')
+    document.querySelector('#loader-container').classList.remove('hide')
     document.querySelector('#content').classList.add('hide')
-    document.querySelector('#loader-container').style.display = 'flex'
 }
 
 // Declare a function that hide Loader and show content
 const hideLoader = () => {
-    // document.querySelector('#loader-container').classList.add('hide')
+    document.querySelector('#loader-container').classList.add('hide')
     document.querySelector('#content').classList.remove('hide')
-    document.querySelector('#loader-container').style.display = 'none'
 }
 
-//Search pokemon function that have a parameter that can be a name or Id.
+//Search pokemon function that have a parameter which is a name or Id.
 //This function allow to fetch API and get back pokemon's informations and create a HTML code to store these informations and append it to modal div.
 const search = (name) => {
     fetch('https://pokeapi.co/api/v2/pokemon/'+name.toLowerCase())
     .then((response) => response.json())
     .then((json) => {
         console.log(json)
+        let img =''
+        if(json.sprites.front_default !== null) {
+            img = `
+                <img class="modal-image" id="modal-img1" src="${json.sprites.front_default}" alt="${json.name}'s image">
+                <img class="modal-image" id="modal-img2" src="${json.sprites.front_shiny}" alt="${json.name}'s image">`
+        } else {
+            img = `<h5>Image not available</h5>`
+        }
         const modalContent = `
             <h3 class="modal-name">${json.name}</h3>
-            <img class="modal-image" src="${json.sprites.front_default}" alt="${json.name}'s image">
+            <div id="modal-mtp-img">
+                ${img}
+            </div>
             <div class="modal-text">
                 <p class="left">ID:</p>
                 <p class="right"># ${json.id}</p>
@@ -102,7 +110,6 @@ const searchAbilityData = async () => {
     .then((json) => {
         console.log(json)
         const array = json.results.map(element => element.name).sort()
-        console.log(array)
         for (let element of array) {
             let li = document.createElement('li')
             li.className = 'ability'
@@ -116,7 +123,6 @@ const searchAbilityData = async () => {
     const options = document.querySelectorAll('.ability')
     document.querySelector('.select-ability-text').addEventListener('click', () => {
         document.querySelector('.options-ability').classList.add('show')})
-        console.log(options)
         options.forEach(option => {
             option.addEventListener('click', () => {
                 document.querySelector('.select-ability-text').innerText = option.innerText
@@ -253,21 +259,28 @@ const showAdvancedSearchResult = async () => {
             .then((response) => response.json())
             .then((json) => {
                 console.log(json)
+                let img=''
+                if(json.sprites.front_default !== null) {
+                    img = `
+                    <img class="pokemon-image" src=${json.sprites.front_default} alt="${json.name}'s image">`
+                } else {
+                    img = `<h5>Image not available</h5>`
+                }
                 const content = `
                     <div class="pokemon-img-container">
-                        <img class="pokemon-image" src=${json.sprites.front_default}>
+                        ${img}
                     </div>
                     <p class="pokemon-name">${json.name}</p>`
                 const newDiv = document.createElement('div')
                 newDiv.className ='pokemon-card'
-                console.log(newDiv)
                 newDiv.innerHTML = content
                 document.querySelector('#main-2').appendChild(newDiv)
                 hideLoader()
                 const pokemonCard = document.querySelectorAll('.pokemon-card')
                 pokemonCard.forEach(pokemon => {
                     pokemon.addEventListener('click', (e) => {
-                    search(pokemon.innerText)
+                        console.log(pokemon)
+                    search(pokemon.children[1].innerText)
                     })
                 })  
             })
@@ -299,8 +312,7 @@ const reset = () => {
 }
 
 // ------------------------ SET UP & EVENTS ------------------------------
-// document.querySelector('#loader-container').style.display='none'
-// setTimeout(showLoader(),10000)
+
 search151()
 searchAbilityData()
 searchData('pokemon-color','#filter-color')
@@ -318,7 +330,9 @@ window.onload = () => {
     })
     // show advanced search form when clicked
     document.querySelector('#adv-search-title').addEventListener('click', (e) => {
+        e.preventDefault()
         let fieldset = document.querySelector('fieldset')
+        console.log(fieldset)
         if (fieldset.classList.value === '') {
             fieldset.classList.add('show')
             document.querySelector('#arrow').style.transform ='rotate(180deg)'

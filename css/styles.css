@@ -36,7 +36,7 @@ h1 {
     font-size: 2.8rem;
     color: rgb(255,203,5);
     text-align: center;
-    padding: 50px 0 10px 0;
+    padding: 3rem 0 0.7rem 0;
     font-family: 'Poppins', sans-serif;
     text-shadow: 0 0.3rem 0.3rem rgb(42,117,187);
     animation: h1-animation 3s;
@@ -68,7 +68,7 @@ input::placeholder {
 }
 #text-form {
     width: 30vw;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     background-color: #1d1c1b;
     font-style: italic;
     border-style: hidden;
@@ -90,7 +90,7 @@ input:-webkit-autofill:focus {
     background-color: transparent; 
 }
 #icon {
-    font-size: 25px;
+    font-size: 20px;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -178,7 +178,7 @@ li {
 #main-2 {
     display: grid;
     grid-template-columns: repeat(auto-fill,170px);
-    justify-content: space-between;
+    justify-content: space-evenly;
     column-gap: 20px;
     row-gap: 20px;
     margin-bottom: 0;
@@ -187,27 +187,28 @@ li {
 .pokemon-card {
     position: relative;
     border: 2px solid rgba(255, 255, 255, 0.5);
-    border-radius: 1em;
-    box-shadow: 0rem 0.2rem 0.4rem rgba(255, 255, 255, 0.6);
+    border-radius: 1rem;
+    box-shadow: 0rem 0.3rem 0.5rem rgba(255, 255, 255, 0.6);
     text-align: center;
     cursor: pointer;
     height: 200px;
 }
 .pokemon-img-container {
-    margin: 1.5em 0;
-    max-height: 70%;
+    margin: 2rem 0 0 0;
+    max-height: 80%;
 }
 .pokemon-image {
-    max-width: 80%;
+    max-width: 90%;
 }
 .pokemon-name {
     position: absolute;
     left: 0;
     right: 0;
-    top: 150px;
+    top: 160px;
     text-transform: capitalize;
     text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.7);
     line-height: 1;
+    font-size: 16px;
 }
 
 /*----------------------MODAL-----------------------*/
@@ -255,14 +256,34 @@ li {
     font-size: 1.3rem;
     text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.7);
 }
-.modal-image {
+#modal-mtp-img {
     position: absolute;
     top: 18%;
     right: 15%;
     height: 150px;
     width: 150px;
-    animation: show 1s;
-    /* animation-timing-function: ease-out; */
+    transition: opacity 1s;
+}
+.modal-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 150px;
+    width: 150px;
+}
+#modal-img1 {
+    opacity: 1;
+    animation: go, show, hide;
+    animation-duration: 1s, 1s, 1s;
+    animation-delay: 0s, 1s, 2s;
+    transform: scale(1.5)
+}
+#modal-img2 {
+    opacity: 0;
+    animation: hide, show;
+    animation-duration: 2s, 1s;
+    animation-delay: 0s, 2s;
+    transform: scale(1.5)
 }
 .modal-text {
     position: absolute;
@@ -278,9 +299,7 @@ li {
 }
 .left {
     padding-left: 1rem;
-}
-.right {
-    font-style: italic; 
+    font-weight: bolder;
 }
 .modal-no-result {
     position: absolute;
@@ -294,8 +313,7 @@ li {
 
 /*------------------LOADER---------------------*/
 #loader-container {
-    /* display: flex; */
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     position: fixed;
@@ -304,12 +322,10 @@ li {
     height: 100vh;
     width: 100vw;
     background-color: rgb(9, 8, 13);
-    opacity: 1;
 }
-/* #loader-container.hide {
+#loader-container.hide {
     display: none;
-    opacity: 0;
-} */
+}
 #content {
     visibility: visible;
     opacity: 1;
@@ -319,97 +335,45 @@ li {
     opacity: 0
 }
 #loader-container, #loader-container.hide, #content, #content.hide {
-    transition: opacity 2s;
+    transition: opacity 1s;
 }
 #loader {
-    border: 10px solid whitesmoke;
-    border-top: 10px solid rgb(255,203,5);
-    border-bottom: 10px solid rgb(42,117,187);
+    border: 10px solid lightgray;
+    border-top: 10px solid gray;
     border-radius: 50%;
     width: 100px;
     height: 100px;
     animation: spinning-loader 2s linear infinite;
 }
-#pikachu-ctn {
-    width: 50%;
-    border-bottom: 1rem solid  rgb(122, 120, 126);
-    border-radius: 10%;
-}
-#pikachu {
-    display: block;
-    width: 15vw;
-    animation: pikachu-animation 10s linear infinite;
-}
+
 /*------------------ANIMATION--------------------*/
 @keyframes shaking {
     0%{
-        transform: translate3d(0px,2px,3px);
+        transform: translate(3px, -5px);
         background-color: rgba(255, 255, 0, 0.2);
     }
     20%{
-        transform: translate3d(0px,-4px,-3px);
+        transform: translate(-3px, -4px);
         background-color: rgba(255, 255, 0, 0.4);
     }
     40%{
-        transform: translate3d(2px,0px,3px);
+        transform: translate(2px,-3px);
         background-color: rgba(255, 255, 0, 0.6);
     }
     60%{
-        transform: translate3d(-4px,0px,-3px);
+        transform: translate(-2px,-2px);
         background-color: rgba(255, 255, 0, 0.8);
     }
     80%{
-        transform: translate3d(1px,1px,2px);
+        transform: translate(1px,-1px);
         background-color: rgba(255, 255, 0, 0.6);
     }
     100%{
-        transform: translate3d(-1px,-1px,-2px);
+        transform: translate(-1px,0px);
         background-color: rgba(255, 255, 0, 0.3);
     }
 }
-/* @keyframes show {
-    0% {
-        transform: rotate3d(0,1,0,180deg);
-        translate: -250px -50px 0;
-    }
-    20% {
-        translate: -200px 50px 0
-    }
-    40% {
-        translate: -150px -40px 0
-    }
-    60% {
-        translate: -100px 40px 0;
-        transform: rotate3d(0,1,0,180deg)
-    }
-    80% {
-        translate: -50px -30px 0
-    }
-    100% {
-        translate: 0 30px 0;
-    }
-} */
-@keyframes show {
-    0% {
-        transform: rotate3d(0,1,0,180deg);
-        translate: -350px 0 0;
-    }
-    20% {
-        translate: -200px 50px 0;
-    }
-    40% {
-        transform: rotate3d(0,1,0,180deg)
-    }
-    60% {
-        transform: rotate3d(0,1,0,180deg)
-    }
-    80% {
-        translate: 0px -50px 0
-    }
-    100% {
-        translate: 0px 50px 0;
-    }
-}
+
 @keyframes spinning-loader {
     0%{
         transform: rotate(0deg)
@@ -421,7 +385,7 @@ li {
 @keyframes h1-animation {
     0% {
         transform: scale(1);
-        translate: 0 -200px 0;
+        translate: 0 -150px 0;
     }
     50% {
         transform: scale(2);
@@ -436,19 +400,53 @@ li {
         translate: 0 4000px 0;
     }
     100% {
-        translate: 0 -4000px 0;
+        translate: 0 0 0;
     }
 }
-@keyframes pikachu-animation {
+@keyframes go {
     0% {
-        transform: translateX(0)
+        transform: rotate3d(0,1,0,180deg) scale(0.75);
+        translate: -300px 0 0;
+    }
+    50% {
+        translate: 0 0 0;
+    }
+    60% {
+        transform: rotate3d(0,1,0,200deg);
+    }
+    80% {
+        transform: rotate3d(0,1,0,300deg);
+    }
+    90% {
+        transform: rotate3d(0,1,0,360deg);
     }
     100% {
-        transform: translateX(500px)
+        transform: scale(1.25)
     }
 }
+@keyframes show{
+    0%{
+        opacity: 1; 
+    }
+    100%{
+        opacity: 1; 
+        transform: scale(1.5)
+    }
+}
+@keyframes hide {
+    0%{
+        opacity: 0;   
+    }
+    100%{
+        opacity: 0;   
+    }
+}
+
 /*-------------------MEDIA QUERY------------------*/
 @media screen and (max-width: 600px) {
+    html {
+        font-size: 14px;
+    }
     body {
         line-height: 1.2;
     }
@@ -457,10 +455,6 @@ li {
     }
     #text-form {
         width: 50vw;
-    }
-    #main-2 {
-        /* grid-template-columns: repeat(auto-fill,160px); */
-        justify-content: space-evenly;
     }
     .modal {
         width: 90%;
@@ -476,13 +470,11 @@ li {
     .pokemon-card:hover {
         animation: shaking 1s;
         border: 2px solid rgba(255, 222, 0, 0.7);
-        box-shadow: 0.3rem 0.3rem 0.3rem rgba(255, 222, 0, 0.7);
-    }
-    .pokemon-image:hover {
-        transform: rotate3d(0,1,0,180deg) scale(2);
+        box-shadow: 0rem 0.3rem 0.3rem rgba(255, 222, 0, 0.7);
     }
     #adv-search-title:hover .change-color {
-        color: rgb(42,117,187)
+        color:rgba(255, 222, 0, 0.7);
+        box-shadow: 0rem 0.3rem 0.4rem rgba(255, 222, 0, 0.7);
     }
 }
 @media screen and (max-height: 600px) {
