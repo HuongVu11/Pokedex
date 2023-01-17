@@ -1,6 +1,6 @@
 
 
-//--------------------------- FUNCTIONS --------------------------------
+//--------------------------- GENERAL FUNCTIONS --------------------------------
 
 // Declare a function that show modal
 const showModal = () => {
@@ -25,8 +25,8 @@ const hideLoader = () => {
     document.querySelector('#content').classList.remove('hide')
 }
 
-//Declare Search(name) - a function that has a parameter which is a name or Id.
-//This function allow to fetch API and get Pokemon's information and create a HTML code to store this information and append it to modal div.
+// Declare Search(name) - a function that has a parameter which is a name or Id.
+//This function allow to retrieve Pokemon's information from API and create a HTML code to store this information and append it to modal div.
 const search = (name) => {
     fetch('https://pokeapi.co/api/v2/pokemon/'+name.toLowerCase())
     .then((response) => response.json())
@@ -70,12 +70,11 @@ const search = (name) => {
             <button class="close" onclick = "closeModal()">X</button>
         `
         document.querySelector('.modal').innerHTML = content
-        const modalChildren = document.querySelector('.modal').firstElementChild
         showModal()
     })
 }
 
-// Declare a function that show the 151 original Pokemons and allow to show Pokemon's details when the user clicks on it.
+// Declare a function that show the 151 original Pokemons and allow to show Pokemon's detail information when the user clicks on it.
 const search151 = () => {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
     .then((response) => response.json())
@@ -103,7 +102,7 @@ const search151 = () => {
 // ---------------------- ADVANCED SEARCH FUNCTIONS ----------------------------
 
 // 1. Get a dropdown list for each criteria
-// 1.1. Show 327 abilities's Pokemon when clicked and let user choose one.
+// 1.1. Show total 327 abilities's Pokemon when clicked and let user choose one.
 const searchAbilityData = async () => {
     await fetch(`https://pokeapi.co/api/v2/ability?limit=327`)
     .then((response) => response.json())
@@ -159,13 +158,13 @@ const showAdvancedSearchResult = async () => {
     const typeChoice = document.querySelector('#filter-type').value
     const growthChoice = document.querySelector('#filter-growth').value
     // 2.2. Get data from Pokemon API for the selected criterias.
-    // 2.2.1. Delare variables to store data received for each criteria. These arrays have an initial value of 0 that is used when a criteria is not selected.
+    // 2.2.1. Delare variables to store data received for each criteria. These arrays have an initial value of 0 which means that no choice is selected.
     let abilityArray = []
     let colorArray = []
     let shapeArray = []
     let typeArray = []
     let growthArray = []
-    // 2.2.2. For each selected criteria, we will fetch data from pokemon API.
+    // 2.2.2. For each selected criteria, get data from pokemon API.
     if (abilityChoice !== '-Select-') {
         await fetch(`https://pokeapi.co/api/v2/ability/${abilityChoice}`)
         .then((response) => response.json())
@@ -218,21 +217,21 @@ const showAdvancedSearchResult = async () => {
     const validArray = allArray.filter(array => array.length !== 0)
     console.log('all', allArray)
     console.log('valid', validArray)
-    // 2.3.2. If there is only one criteria used by the user, the valid array has only one array and the result is the array inside of valid array.
+    // 2.3.2. If there is only one criteria used by the user, the valid array has only one array that become the result of the advanced research.
     if (validArray.length === 1) {
         commonPokemon = validArray[0] 
     } else {
-    // 2.3.3. If there are multiple criterias, find an array with the least pokemon. This array will be used to compare with the other array to find common Pokemons.
+    // 2.3.3. If there are multiple criterias, find an array with the least Pokemon. This array will be used to compare with the other array to find common Pokemons.
         let referenceArray = []
         for (let i = 0; i < validArray.length-1; i++) {
             let min = []
+            // compare 2 array together to get the array with minimum value.
             if (validArray[i].length < validArray[i+1].length) {
-                // referenceArray = validArray[i]
                 min = validArray[i]
             } else {
-                // referenceArray = validArray[i+1]
                 min = validArray[i+1]
             }
+            // then compare the current min with previous min (reference array) to get the true min.
             if (referenceArray.length === 0 || referenceArray.length > min.length) {
                 referenceArray = min
             }
@@ -250,7 +249,8 @@ const showAdvancedSearchResult = async () => {
         }
     }
     console.log('common Pokemons',commonPokemon)
-    // 2.4. Show the result
+    // 2.4. Show the result of the advanced search
+    // 2.4.1. Declare a function createPokemonCard() to get data and write HTML code for each pokemon found.
     const createPokemonCard = async () => {
         showLoader()
         document.querySelector('#main-2').innerHTML=''
@@ -289,6 +289,7 @@ const showAdvancedSearchResult = async () => {
             })
         }
     }
+    // 2.4.2. Show the result
     if (commonPokemon.length === 0) {
         const noResult = `
             <p class="modal-no-result">POKEMON NOT FOUND</p>

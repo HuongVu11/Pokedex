@@ -13,7 +13,6 @@ body {
     position:relative;
     font-family: 'Montserrat', sans-serif;
 }
-/*pseudo element is used to make change opacity of background image*/
 body::before {
     display: block;
     height: 100%;
@@ -81,8 +80,8 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:active,
 input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px  #1d1c1b inset !important; 
-    -webkit-text-fill-color:antiquewhite;
+    box-shadow: 0 0 0 1000px  #1d1c1b inset;
+    -webkit-text-fill-color: antiquewhite;
 }  
 .submit {
     cursor: pointer;
@@ -173,8 +172,7 @@ li {
     font-size: 25px;
 }
 
-/*---------------MAIN 2: 151 GRID POKEMONS----------*/
-/*using display grid instead of flex because the last line of flex is not left aligned when we don't have enough of item*/
+/*---------------MAIN 2: SAMPLE OF POKEMON----------*/
 #main-2 {
     display: grid;
     grid-template-columns: repeat(auto-fill,170px);
@@ -338,12 +336,12 @@ li {
     transition: opacity 1s;
 }
 #loader {
-    border: 10px solid lightgray;
-    border-top: 10px solid gray;
+    border: 8px solid lightgray;
+    border-top: 8px solid gray;
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    animation: spinning-loader 2s linear infinite;
+    width: 80px;
+    height: 80px;
+    animation: spinning-loader 1s linear infinite;
 }
 
 /*------------------ANIMATION--------------------*/
