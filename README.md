@@ -25,7 +25,7 @@ Project is built with:
 - JAVASCRIPT;
 
 ## Links to the project site
-[https://spectacular-cascaron-f96394.netlify.app/]
+[https://pokedex-jan2023.netlify.app]
 
 ## Building
 The website has 3 main parts:
